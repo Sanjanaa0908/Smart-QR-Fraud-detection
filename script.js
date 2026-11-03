@@ -54,16 +54,26 @@ function showPage(pageName) {
 
 function parseWiFiQR(data) {
 
-    data = data.trim();
-
-    if (!data.startsWith("WIFI:")) {
+    if (!data) {
         throw new Error("Invalid Wi-Fi QR format.");
     }
 
+    // Remove spaces and invisible characters
+    data = data.trim().replace(/^\uFEFF/, "");
+
+    // Accept WIFI: or wifi:
+    if (!data.toUpperCase().startsWith("WIFI:")) {
+        throw new Error(
+            "Invalid Wi-Fi QR format. Please upload a Wi-Fi QR code."
+        );
+    }
+
+    // Remove WIFI: prefix
     let content = data.substring(5);
 
     let fields = {};
 
+    // Read the Wi-Fi QR fields
     let parts = content.split(";");
 
     parts.forEach(part => {
@@ -74,26 +84,26 @@ function parseWiFiQR(data) {
 
         if (separator === -1) return;
 
-        let key = part.substring(0, separator);
-
+        let key = part.substring(0, separator).toUpperCase();
         let value = part.substring(separator + 1);
 
         fields[key] = value;
-
     });
 
+    // SSID is required
+    if (!fields["S"]) {
+        throw new Error(
+            "Invalid Wi-Fi QR format. Network name was not found."
+        );
+    }
 
     return {
-
-        ssid: fields["S"] || "",
+        ssid: fields["S"],
         security: fields["T"] || "nopass",
         password: fields["P"] || "",
         hidden: fields["H"] || "false"
-
     };
-
 }
-
 
 /* ================= SHANNON ENTROPY ================= */
 
@@ -711,6 +721,10 @@ function clearHistory() {
 
 /* ================= QR PHOTO ================= */
 
+/* ================= QR PHOTO UPLOAD ================= */
+
+/* ================= QR PHOTO UPLOAD ================= */
+
 function uploadQR(event) {
 
     const file = event.target.files[0];
@@ -719,57 +733,109 @@ function uploadQR(event) {
         return;
     }
 
-    // Make sure the scanner library is available
+    // Check whether QR scanning library is available
     if (typeof Html5Qrcode === "undefined") {
         alert("QR scanner library could not be loaded.");
         return;
     }
 
-    // Create a temporary scanner
-    const imageScanner = new Html5Qrcode("reader");
+    // Create a temporary hidden element for QR decoding
+    const reader = document.createElement("div");
 
-    imageScanner.scanFile(file, true)
+    reader.id = "temporaryQRReader";
+
+    reader.style.position = "fixed";
+    reader.style.left = "-10000px";
+    reader.style.top = "-10000px";
+    reader.style.width = "1px";
+    reader.style.height = "1px";
+
+    document.body.appendChild(reader);
+
+    // Create QR image scanner
+    const scanner = new Html5Qrcode("temporaryQRReader");
+
+    // Read the uploaded QR image
+    scanner.scanFile(file, true)
 
         .then(function(decodedText) {
 
-            console.log("QR detected:", decodedText);
+            console.log("QR payload extracted:", decodedText);
 
-            // Put decoded QR text into the input box
-            document.getElementById("qrInput").value = decodedText;
+            /*
+             * IMPORTANT:
+             * Put the extracted payload into
+             * the existing Wi-Fi QR Payload box.
+             */
 
-            // Clear scanner
-            imageScanner.clear();
+            const qrInput =
+                document.getElementById("qrInput");
 
-            // Automatically audit the QR
-            auditQR();
+            qrInput.value = decodedText;
+
+
+            /*
+             * Check whether the QR actually
+             * contains a Wi-Fi payload.
+             */
+
+            if (
+                !decodedText
+                    .trim()
+                    .toUpperCase()
+                    .startsWith("WIFI:")
+            ) {
+
+                alert(
+                    "QR detected, but it is not a Wi-Fi QR code."
+                );
+
+                scanner.clear().catch(function() {});
+                reader.remove();
+
+                return;
+            }
+
+
+            /*
+             * QR successfully extracted.
+             * Do NOT audit automatically.
+             *
+             * The user will press
+             * "Audit this QR".
+             */
+
+            alert(
+                "Wi-Fi QR payload extracted successfully!"
+            );
+
+
+            scanner.clear().catch(function() {});
+            reader.remove();
 
         })
 
         .catch(function(error) {
 
-            console.error("QR scan failed:", error);
+            console.error(
+                "QR extraction failed:",
+                error
+            );
 
-            imageScanner.clear().catch(function() {});
+            scanner.clear().catch(function() {});
+            reader.remove();
 
             alert(
-                "Could not detect a QR code in this image. " +
-                "Please upload a clear image containing a QR code."
+                "Could not read the QR image.\n\n" +
+                "Please upload a clear QR code image."
             );
+
         });
 
+
+    // Allow the same image to be selected again
+    event.target.value = "";
 }
-
-
-/* ================= INITIAL LOAD ================= */
-
-displayProfiles();
-
-displayHistory();
-/* =====================================================
-   REAL QR CODE CAMERA SCANNER
-   ===================================================== */
-
-let qrScanner = null;
 
 
 /* ================= START SCANNER ================= */
