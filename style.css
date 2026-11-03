@@ -1,0 +1,433 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #071b17;
+    color: #e8f5f1;
+}
+
+
+/* ================= HEADER ================= */
+
+header {
+    background: #0b2923;
+    border-bottom: 1px solid #24564b;
+    padding: 18px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: #4de0b5;
+    margin-right: 8px;
+}
+
+nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+nav button {
+    background: transparent;
+    color: #b8d5ce;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+nav button:hover {
+    color: #4de0b5;
+}
+
+
+/* ================= PAGES ================= */
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.subtitle {
+    color: #9ab8b0;
+    margin-bottom: 30px;
+}
+
+
+/* ================= CARDS ================= */
+
+.card {
+    background: #0d2923;
+    border: 1px solid #24564b;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+
+/* ================= TEXTAREA ================= */
+
+textarea {
+    width: 100%;
+    height: 130px;
+    resize: vertical;
+
+    background: #061813;
+    color: #dffaf3;
+
+    border: 1px solid #35685d;
+    border-radius: 8px;
+
+    padding: 15px;
+    margin-top: 10px;
+
+    font-family: monospace;
+    font-size: 14px;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #4de0b5;
+}
+
+
+/* ================= BUTTONS ================= */
+
+.buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+button,
+.upload {
+    border-radius: 7px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.primary {
+    background: #2dc99b;
+    color: #042018;
+    border: none;
+}
+
+.primary:hover {
+    background: #4de0b5;
+}
+
+.upload {
+    background: #163c34;
+    border: 1px solid #35685d;
+    color: #dffaf3;
+}
+
+.upload input {
+    display: none;
+}
+
+
+/* ================= TEST BUTTONS ================= */
+
+.test-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.test-buttons button {
+    background: #153a32;
+    border: 1px solid #35685d;
+    color: #c9e8df;
+}
+
+.test-buttons button:hover {
+    background: #205347;
+}
+
+
+/* ================= PARSED DATA ================= */
+
+.parsed-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.parsed-grid div {
+    background: #071d18;
+    border: 1px solid #244d44;
+    border-radius: 8px;
+    padding: 18px;
+}
+
+.parsed-grid span {
+    display: block;
+    color: #8eaea6;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.parsed-grid strong {
+    font-size: 16px;
+}
+
+
+/* ================= REPORT ================= */
+
+.report-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.score-card {
+    text-align: center;
+}
+
+.gauge {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.score-circle {
+    width: 180px;
+    height: 180px;
+
+    border-radius: 50%;
+
+    border: 15px solid #b33c3c;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    background: #071d18;
+}
+
+.score-circle span {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.score-circle small {
+    color: #91aaa3;
+}
+
+.risk-level {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff7070;
+}
+
+
+/* ================= INFO ================= */
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid #244d44;
+}
+
+.info-row span {
+    color: #91aaa3;
+}
+
+
+/* ================= LISTS ================= */
+
+ul {
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 12px;
+    color: #c8ddd8;
+}
+
+
+/* ================= TABLE ================= */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #28534a;
+}
+
+th {
+    color: #62d9b4;
+}
+
+td {
+    color: #c9ddd8;
+}
+
+
+/* ================= FORM ================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    gap: 10px;
+}
+
+input,
+select {
+    background: #061813;
+    color: white;
+
+    border: 1px solid #35685d;
+    border-radius: 7px;
+
+    padding: 12px;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #4de0b5;
+}
+
+
+/* ================= DELETE BUTTON ================= */
+
+.delete-btn {
+    background: #552525;
+    color: #ffbebe;
+    border: 1px solid #773737;
+    padding: 7px 12px;
+}
+
+
+/* ================= CLEAR ================= */
+
+.danger {
+    margin-top: 20px;
+
+    background: #5b2929;
+    color: #ffd2d2;
+
+    border: 1px solid #843c3c;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 800px) {
+
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .parsed-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .report-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .parsed-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        width: 94%;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+}
+/* ================= QR SCANNER ================= */
+
+.scanner-section {
+    display: none;
+
+    margin-top: 25px;
+    padding: 25px;
+
+    background: #071d18;
+
+    border: 1px solid #35685d;
+    border-radius: 10px;
+
+    text-align: center;
+}
+
+.scanner-section p {
+    color: #9ab8b0;
+    margin-bottom: 20px;
+}
+
+#reader {
+    width: 100%;
+    max-width: 500px;
+
+    margin: 20px auto;
+
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#reader video {
+    border-radius: 10px;
+}
+
+.scanner-section .danger {
+    cursor: pointer;
+}
